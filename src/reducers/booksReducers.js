@@ -1,5 +1,6 @@
 "use strict";
 
+// Creating the Books reducer
 export function booksReducers(state = {
   books:
   [
@@ -17,7 +18,7 @@ export function booksReducers(state = {
     }
   ]
 }, action) {
-  
+
   switch (action.type) {
     case "GET_BOOKS":
       return {

@@ -1,6 +1,6 @@
 "use strict";
 
-// Cart Reducers
+// Creating the Cart Reducer
 export function cartReducers(state = {cart:[]}, action) {
   switch (action.type) {
     case "ADD_TO_CART":
