@@ -35,7 +35,9 @@ export function booksReducers(state = booksState, action) {
     break;
 
     case "DELETE_BOOK":
+      // Make a copy of the current books array
       const currentBookToDelete = [...state.books];
+      // Find the index of the book to be deleted
       const indexToDelete = currentBookToDelete.findIndex((book) => {
         return book._id == action.payload;
       });
@@ -48,10 +50,13 @@ export function booksReducers(state = booksState, action) {
     break;
 
     case "UPDATE_BOOK":
-      const currentBookToUpdate = [...state.books]
+      // Make a copy of the current books array
+      const currentBookToUpdate = [...state.books];
+      // Find the index of the current book to be updated
       const indexToUpdate = currentBookToUpdate.findIndex((book) => {
         return book._id === action.payload._id;
       });
+      // Store the new book to be updated
       const newBookToUpdate = {
         ...currentBookToUpdate[indexToUpdate],
         title: action.payload.title

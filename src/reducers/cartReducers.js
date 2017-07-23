@@ -20,10 +20,13 @@ export function cartReducers(state = {cart:[]}, action) {
       };
     break;
     case "UPDATE_CART":
+      // Create a cpy of the current array of books
       const currentBookToUpdate = [...state.cart]
+      // Determine at which index in the books array is the book to be deleted
       const indexToUpdate = currentBookToUpdate.findIndex((book) => {
         return book._id === action._id;
       });
+      // Store the new book to update from the cart
       const newBookToUpdate = {
         ...currentBookToUpdate[indexToUpdate],
         quantity: currentBookToUpdate[indexToUpdate].quantity + action.unit

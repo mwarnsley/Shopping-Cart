@@ -37740,7 +37740,9 @@ function booksReducers() {
       break;
 
     case "DELETE_BOOK":
+      // Make a copy of the current books array
       var currentBookToDelete = [].concat(_toConsumableArray(state.books));
+      // Find the index of the book to be deleted
       var indexToDelete = currentBookToDelete.findIndex(function (book) {
         return book._id == action.payload;
       });
@@ -37750,10 +37752,13 @@ function booksReducers() {
       break;
 
     case "UPDATE_BOOK":
+      // Make a copy of the current books array
       var currentBookToUpdate = [].concat(_toConsumableArray(state.books));
+      // Find the index of the current book to be updated
       var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
         return book._id === action.payload._id;
       });
+      // Store the new book to be updated
       var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
         title: action.payload.title
       });
@@ -37805,10 +37810,13 @@ function cartReducers() {
       });
       break;
     case "UPDATE_CART":
+      // Create a cpy of the current array of books
       var currentBookToUpdate = [].concat(_toConsumableArray(state.cart));
+      // Determine at which index in the books array is the book to be deleted
       var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
         return book._id === action._id;
       });
+      // Store the new book to update from the cart
       var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
         quantity: currentBookToUpdate[indexToUpdate].quantity + action.unit
       });
@@ -49021,6 +49029,7 @@ var Menu = function (_Component) {
     key: 'render',
     value: function render() {
       var cartItemNumber = this.props.cartItemNumber;
+      // Determine whether or not to display the cart total based on total quantity
 
       var displayCartItemNumber = cartItemNumber > 0 ? _react2.default.createElement(
         _reactBootstrap.Badge,

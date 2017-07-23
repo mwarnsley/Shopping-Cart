@@ -5,6 +5,7 @@ import {Nav, NavItem, Navbar, Badge} from 'react-bootstrap';
 class Menu extends Component {
   render() {
     const {cartItemNumber} = this.props;
+    // Determine whether or not to display the cart total based on total quantity
     const displayCartItemNumber = cartItemNumber > 0 ?
       (<Badge className="badge">{cartItemNumber}</Badge>) : null;
     return (
