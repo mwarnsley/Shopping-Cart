@@ -49048,7 +49048,7 @@ var Menu = function (_Component) {
             _react2.default.createElement(
               'a',
               { href: '/' },
-              'React-Bootstrap'
+              'BookShop'
             )
           ),
           _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
