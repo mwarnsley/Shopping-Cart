@@ -18,7 +18,8 @@ class BooksList extends Component {
     const {
       books,
       dispatch,
-      cart} = this.props;
+      cart,
+      totalAmount} = this.props;
     const booksList = books.map((book) => {
       return (
         <Col xs={12} sm={6} md={4} key={book._id}>
@@ -35,7 +36,7 @@ class BooksList extends Component {
     return (
       <Grid>
         <Row>
-          <Cart dispatch={dispatch} cart={cart}/>
+          <Cart totalAmount={totalAmount} dispatch={dispatch} cart={cart}/>
         </Row>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>
@@ -61,12 +62,17 @@ BooksForm.propTypes = {
    * Array of items that are currently in the cart
    */
   cart: PropTypes.array,
+  /**
+   * Total Amount inside of the cart
+   */
+  totalAmount: PropTypes.string,
 };
 
 function mapStateToProps(state) {
   return {
     books: state.books.books,
-    cart: state.cart.cart
+    cart: state.cart.cart,
+    totalAmount: state.cart.totalAmount
   };
 }
 

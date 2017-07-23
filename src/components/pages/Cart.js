@@ -51,7 +51,7 @@ class Cart extends Component {
     return (<div/>);
   }
   renderCart() {
-    const {cart} = this.props;
+    const {cart, totalAmount} = this.props;
     const cartItemList = cart.map((item) => {
       return (
         <Panel key={item._id}>
@@ -97,6 +97,7 @@ class Cart extends Component {
         {cartItemList}
         <Row>
           <Col xs={12}>
+            <h6>Total amount: {totalAmount}</h6>
             <Button onClick={this.open} bsStyle="success" bsSize="small">
               PROCEED TO CHECKOUT
             </Button>
@@ -112,7 +113,7 @@ class Cart extends Component {
           </Modal.Body>
           <Modal.Footer>
             <Col xs={6}>
-              <h6>total $:</h6>
+              <h6>total $: {totalAmount}</h6>
             </Col>
             <Button onClick={this.close}>Close</Button>
           </Modal.Footer>
@@ -139,6 +140,10 @@ Cart.propTypes = {
    * Array of items that are currently in the cart
    */
   cart: PropTypes.array,
+  /**
+   * Total Amount inside of the cart
+   */
+  totalAmount: PropTypes.string,
 };
 
 export default Cart;
