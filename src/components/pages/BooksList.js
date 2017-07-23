@@ -7,6 +7,7 @@ import {getBooks} from '../../actions/booksActions';
 
 import BookItem from './BookItem';
 import BooksForm from './BooksForm';
+import Cart from './Cart';
 
 class BooksList extends Component {
   componentDidMount() {
@@ -14,7 +15,7 @@ class BooksList extends Component {
     dispatch(getBooks());
   }
   render() {
-    const {books, dispatch} = this.props;
+    const {books, dispatch, cart} = this.props;
     const booksList = books.map((book) => {
       return (
         <Col xs={12} sm={6} md={4} key={book.id}>
@@ -22,12 +23,17 @@ class BooksList extends Component {
             id={book.id}
             title={book.title}
             description={book.description}
-            price={book.price}/>
+            price={book.price}
+            dispatch={dispatch}
+            cart={cart}/>
         </Col>
       );
     });
     return (
       <Grid>
+        <Row>
+          <Cart />
+        </Row>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>
             <BooksForm dispatch={dispatch}/>
@@ -48,11 +54,16 @@ BooksForm.propTypes = {
    * Array of books coming from redux in the form of an array of objects
    */
   books: PropTypes.array,
+  /**
+   * Array of items that are currently in the cart
+   */
+  cart: PropTypes.array,
 };
 
 function mapStateToProps(state) {
   return {
-    books: state.books.books
+    books: state.books.books,
+    cart: state.cart.cart
   };
 }
 

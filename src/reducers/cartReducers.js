@@ -6,7 +6,7 @@ export function cartReducers(state = {cart:[]}, action) {
     case "ADD_TO_CART":
     return {
       cart: [
-        ...state.cart,
+        ...state,
         ...action.payload
       ]
     };

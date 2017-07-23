@@ -2,8 +2,22 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Well, Button} from 'react-bootstrap';
+import {addToCart} from '../../actions/cartActions';
 
 class BookItem extends Component {
+  constructor() {
+    super();
+
+    this.handleCart = this.handleCart.bind(this);
+  }
+  handleCart() {
+    const {dispatch, cart, id, title, description, price} = this.props;
+    const book = [
+      ...cart,
+      {id, title, description, price}
+    ];
+    dispatch(addToCart(book));
+  }
   render() {
     const {title, description, price} = this.props;
     return(
@@ -13,7 +27,7 @@ class BookItem extends Component {
             <h6>{title}</h6>
             <p>{description}</p>
             <h6>usd. {price}</h6>
-            <Button bsStyle="primary"></Button>
+            <Button onClick={this.handleCart} bsStyle="primary"></Button>
           </Col>
         </Row>
       </Well>
@@ -22,6 +36,14 @@ class BookItem extends Component {
 }
 
 BookItem.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: PropTypes.func.isRequired,
+  /**
+   * ID number for the item
+   */
+  id: PropTypes.number.isRequired,
   /**
    * Title of the book in string format
    */
@@ -34,6 +56,10 @@ BookItem.propTypes = {
    * Price of the book in number format
    */
   price: PropTypes.number.isRequired,
+  /**
+   * Array of items that are currently in the cart
+   */
+  cart: PropTypes.array,
 };
 
 export default BookItem;

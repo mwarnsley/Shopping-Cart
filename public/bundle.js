@@ -32597,7 +32597,7 @@ function cartReducers() {
   switch (action.type) {
     case "ADD_TO_CART":
       return {
-        cart: [].concat(_toConsumableArray(state.cart), _toConsumableArray(action.payload))
+        cart: [].concat(_toConsumableArray(state), _toConsumableArray(action.payload))
       };
   };
   return state;
@@ -32658,6 +32658,10 @@ var _BooksForm = __webpack_require__(488);
 
 var _BooksForm2 = _interopRequireDefault(_BooksForm);
 
+var _Cart = __webpack_require__(489);
+
+var _Cart2 = _interopRequireDefault(_Cart);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32687,7 +32691,8 @@ var BooksList = function (_Component) {
     value: function render() {
       var _props = this.props,
           books = _props.books,
-          dispatch = _props.dispatch;
+          dispatch = _props.dispatch,
+          cart = _props.cart;
 
       var booksList = books.map(function (book) {
         return _react2.default.createElement(
@@ -32697,12 +32702,19 @@ var BooksList = function (_Component) {
             id: book.id,
             title: book.title,
             description: book.description,
-            price: book.price })
+            price: book.price,
+            dispatch: dispatch,
+            cart: cart })
         );
       });
       return _react2.default.createElement(
         _reactBootstrap.Grid,
         null,
+        _react2.default.createElement(
+          _reactBootstrap.Row,
+          null,
+          _react2.default.createElement(_Cart2.default, null)
+        ),
         _react2.default.createElement(
           _reactBootstrap.Row,
           { style: { marginTop: '15px' } },
@@ -32728,12 +32740,17 @@ _BooksForm2.default.propTypes = {
   /**
    * Array of books coming from redux in the form of an array of objects
    */
-  books: _propTypes2.default.array
+  books: _propTypes2.default.array,
+  /**
+   * Array of items that are currently in the cart
+   */
+  cart: _propTypes2.default.array
 };
 
 function mapStateToProps(state) {
   return {
-    books: state.books.books
+    books: state.books.books,
+    cart: state.cart.cart
   };
 }
 
@@ -43544,7 +43561,11 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactBootstrap = __webpack_require__(172);
 
+var _cartActions = __webpack_require__(349);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -43558,16 +43579,33 @@ var BookItem = function (_Component) {
   function BookItem() {
     _classCallCheck(this, BookItem);
 
-    return _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (BookItem.__proto__ || Object.getPrototypeOf(BookItem)).call(this));
+
+    _this.handleCart = _this.handleCart.bind(_this);
+    return _this;
   }
 
   _createClass(BookItem, [{
-    key: 'render',
-    value: function render() {
+    key: 'handleCart',
+    value: function handleCart() {
       var _props = this.props,
+          dispatch = _props.dispatch,
+          cart = _props.cart,
+          id = _props.id,
           title = _props.title,
           description = _props.description,
           price = _props.price;
+
+      var book = [].concat(_toConsumableArray(cart), [{ id: id, title: title, description: description, price: price }]);
+      dispatch((0, _cartActions.addToCart)(book));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props2 = this.props,
+          title = _props2.title,
+          description = _props2.description,
+          price = _props2.price;
 
       return _react2.default.createElement(
         _reactBootstrap.Well,
@@ -43594,7 +43632,7 @@ var BookItem = function (_Component) {
               'usd. ',
               price
             ),
-            _react2.default.createElement(_reactBootstrap.Button, { bsStyle: 'primary' })
+            _react2.default.createElement(_reactBootstrap.Button, { onClick: this.handleCart, bsStyle: 'primary' })
           )
         )
       );
@@ -43606,6 +43644,14 @@ var BookItem = function (_Component) {
 
 BookItem.propTypes = {
   /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: _propTypes2.default.func.isRequired,
+  /**
+   * ID number for the item
+   */
+  id: _propTypes2.default.number.isRequired,
+  /**
    * Title of the book in string format
    */
   title: _propTypes2.default.string.isRequired,
@@ -43616,7 +43662,11 @@ BookItem.propTypes = {
   /**
    * Price of the book in number format
    */
-  price: _propTypes2.default.number.isRequired
+  price: _propTypes2.default.number.isRequired,
+  /**
+   * Array of items that are currently in the cart
+   */
+  cart: _propTypes2.default.array
 };
 
 exports.default = BookItem;
@@ -43751,6 +43801,103 @@ BooksForm.propTypes = {
 };
 
 exports.default = BooksForm;
+
+/***/ }),
+/* 489 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(0);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactRedux = __webpack_require__(162);
+
+var _reactBootstrap = __webpack_require__(172);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Cart = function (_Component) {
+  _inherits(Cart, _Component);
+
+  function Cart() {
+    _classCallCheck(this, Cart);
+
+    return _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).apply(this, arguments));
+  }
+
+  _createClass(Cart, [{
+    key: 'renderEmpty',
+    value: function renderEmpty() {
+      return _react2.default.createElement('div', null);
+    }
+  }, {
+    key: 'renderCart',
+    value: function renderCart() {
+      var cart = this.props.cart;
+
+      var cartItemList = cart.map(function (item) {
+        return _react2.default.createElement(
+          _reactBootstrap.Panel,
+          { key: item.id },
+          _react2.default.createElement(
+            _reactBootstrap.Row,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { xs: 12, sm: 4 },
+              _react2.default.createElement(
+                'h6',
+                null,
+                item.title
+              )
+            )
+          )
+        );
+      });
+      return _react2.default.createElement(
+        _reactBootstrap.Panel,
+        { header: 'Cart', bsStyle: 'primary' },
+        cartItemList
+      );
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var cart = this.props.cart;
+
+      if (cart[0]) {
+        return this.renderCart();
+      } else {
+        return this.renderEmpty();
+      }
+    }
+  }]);
+
+  return Cart;
+}(_react.Component);
+
+function mapStateToProps(state) {
+  return {
+    cart: state.cart.cart
+  };
+}
+
+exports.default = (0, _reactRedux.connect)(mapStateToProps)(Cart);
 
 /***/ })
 /******/ ]);
