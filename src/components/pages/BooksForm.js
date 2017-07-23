@@ -1,5 +1,6 @@
 "use strict";
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import {findDOMNode} from 'react-dom';
 import {postBooks} from '../../actions/booksActions';
@@ -53,5 +54,12 @@ class BooksForm extends Component {
     );
   }
 }
+
+BooksForm.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: PropTypes.func.isRequired,
+};
 
 export default BooksForm;

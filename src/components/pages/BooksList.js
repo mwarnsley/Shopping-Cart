@@ -1,5 +1,6 @@
 "use strict";
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Grid, Col, Row, Button} from 'react-bootstrap';
 import {getBooks} from '../../actions/booksActions';
@@ -37,6 +38,17 @@ class BooksList extends Component {
     );
   }
 }
+
+BooksForm.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: PropTypes.func.isRequired,
+  /**
+   * Array of books coming from redux in the form of an array of objects
+   */
+  books: PropTypes.array,
+};
 
 function mapStateToProps(state) {
   return {

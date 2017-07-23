@@ -32640,6 +32640,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactRedux = __webpack_require__(162);
 
 var _reactBootstrap = __webpack_require__(172);
@@ -32715,6 +32719,17 @@ var BooksList = function (_Component) {
 
   return BooksList;
 }(_react.Component);
+
+_BooksForm2.default.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: _propTypes2.default.func.isRequired,
+  /**
+   * Array of books coming from redux in the form of an array of objects
+   */
+  books: _propTypes2.default.array
+};
 
 function mapStateToProps(state) {
   return {
@@ -43523,6 +43538,10 @@ var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
+
 var _reactBootstrap = __webpack_require__(172);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -43585,6 +43604,21 @@ var BookItem = function (_Component) {
   return BookItem;
 }(_react.Component);
 
+BookItem.propTypes = {
+  /**
+   * Title of the book in string format
+   */
+  title: _propTypes2.default.string.isRequired,
+  /**
+   * Description of the book in string format
+   */
+  description: _propTypes2.default.string.isRequired,
+  /**
+   * Price of the book in number format
+   */
+  price: _propTypes2.default.number.isRequired
+};
+
 exports.default = BookItem;
 
 /***/ }),
@@ -43603,6 +43637,10 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _react = __webpack_require__(0);
 
 var _react2 = _interopRequireDefault(_react);
+
+var _propTypes = __webpack_require__(8);
+
+var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _reactBootstrap = __webpack_require__(172);
 
@@ -43704,6 +43742,13 @@ var BooksForm = function (_Component) {
 
   return BooksForm;
 }(_react.Component);
+
+BooksForm.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: _propTypes2.default.func.isRequired
+};
 
 exports.default = BooksForm;
 

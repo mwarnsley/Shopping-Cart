@@ -1,5 +1,6 @@
 "use strict";
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {Row, Col, Well, Button} from 'react-bootstrap';
 
 class BookItem extends Component {
@@ -19,5 +20,20 @@ class BookItem extends Component {
     );
   }
 }
+
+BookItem.propTypes = {
+  /**
+   * Title of the book in string format
+   */
+  title: PropTypes.string.isRequired,
+  /**
+   * Description of the book in string format
+   */
+  description: PropTypes.string.isRequired,
+  /**
+   * Price of the book in number format
+   */
+  price: PropTypes.number.isRequired,
+};
 
 export default BookItem;
