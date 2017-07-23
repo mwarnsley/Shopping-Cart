@@ -51,10 +51,25 @@ class Cart extends Component {
             </Col>
             <Col xs={6} sm={4}>
               <ButtonGroup style={{minWidth: '300px'}}>
-                <Button onClick={() => this.onDecrement(item._id, item.quantity)} bsStyle="default" bsSize="small">-</Button>
-                <Button onClick={() => this.onIncrement(item._id)} bsStyle="default" bsSize="small">+</Button>
+                <Button
+                  onClick={() => this.onDecrement(item._id, item.quantity)}
+                  bsStyle="default"
+                  bsSize="small">
+                  -
+                </Button>
+                <Button
+                  onClick={() => this.onIncrement(item._id)}
+                  bsStyle="default"
+                  bsSize="small">
+                  +
+                </Button>
                 <span>     </span>
-                <Button onClick={() => this.onDelete(item._id)} bsStyle="danger" bsSize="small">DELETE</Button>
+                <Button
+                  onClick={() => this.onDelete(item._id)}
+                  bsStyle="danger"
+                  bsSize="small">
+                  DELETE
+                </Button>
               </ButtonGroup>
             </Col>
           </Row>

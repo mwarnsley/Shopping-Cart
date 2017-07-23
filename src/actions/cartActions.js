@@ -1,6 +1,6 @@
 "use strict";
 
-// Add book to cart action
+// Action to add a book to the cart
 export function addToCart(book) {
   return {
     type: "ADD_TO_CART",
@@ -8,7 +8,7 @@ export function addToCart(book) {
   };
 }
 
-// Delete from cart
+// Action to delete an item from the cart
 export function deleteCartItem(cart) {
   return {
     type: "DELETE_CART_ITEM",
@@ -16,7 +16,7 @@ export function deleteCartItem(cart) {
   }
 }
 
-// Update the cart
+// Action to update an item in the cart
 export function updateCart(_id, unit) {
   return {
     type: "UPDATE_CART",

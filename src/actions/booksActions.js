@@ -1,13 +1,13 @@
 "use strict";
 
-// Get Books
+// Action to get books on component mounting
 export function getBooks() {
   return {
     type: "GET_BOOKS"
   }
 }
 
-// Post a Book
+// Action to post a new book
 export function postBooks(book) {
   return {
     type: "POST_BOOK",
@@ -15,7 +15,7 @@ export function postBooks(book) {
   };
 }
 
-// Delete a Book
+// Action to delete a book
 export function deleteBooks(id) {
   return {
     type: "DELETE_BOOK",
@@ -23,7 +23,7 @@ export function deleteBooks(id) {
   };
 }
 
-// Update a Book
+// Action to update a book
 export function updateBooks(book) {
   return {
     type: "UPDATE_BOOK",

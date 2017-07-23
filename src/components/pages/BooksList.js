@@ -15,7 +15,10 @@ class BooksList extends Component {
     dispatch(getBooks());
   }
   render() {
-    const {books, dispatch, cart} = this.props;
+    const {
+      books,
+      dispatch,
+      cart} = this.props;
     const booksList = books.map((book) => {
       return (
         <Col xs={12} sm={6} md={4} key={book._id}>

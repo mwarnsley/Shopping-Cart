@@ -14843,7 +14843,7 @@ function verifyPlainObject(value, displayName, methodName) {
 "use strict";
 
 
-// Get Books
+// Action to get books on component mounting
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -14858,7 +14858,7 @@ function getBooks() {
   };
 }
 
-// Post a Book
+// Action to post a new book
 function postBooks(book) {
   return {
     type: "POST_BOOK",
@@ -14866,7 +14866,7 @@ function postBooks(book) {
   };
 }
 
-// Delete a Book
+// Action to delete a book
 function deleteBooks(id) {
   return {
     type: "DELETE_BOOK",
@@ -14874,7 +14874,7 @@ function deleteBooks(id) {
   };
 }
 
-// Update a Book
+// Action to update a book
 function updateBooks(book) {
   return {
     type: "UPDATE_BOOK",
@@ -32631,7 +32631,7 @@ function cartReducers() {
 "use strict";
 
 
-// Add book to cart action
+// Action to add a book to the cart
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -32646,7 +32646,7 @@ function addToCart(book) {
   };
 }
 
-// Delete from cart
+// Action to delete an item from the cart
 function deleteCartItem(cart) {
   return {
     type: "DELETE_CART_ITEM",
@@ -32654,7 +32654,7 @@ function deleteCartItem(cart) {
   };
 }
 
-// Update the cart
+// Action to update an item in the cart
 function updateCart(_id, unit) {
   return {
     type: "UPDATE_CART",
@@ -43998,16 +43998,22 @@ var Cart = function (_Component) {
                 { style: { minWidth: '300px' } },
                 _react2.default.createElement(
                   _reactBootstrap.Button,
-                  { onClick: function onClick() {
+                  {
+                    onClick: function onClick() {
                       return _this2.onDecrement(item._id, item.quantity);
-                    }, bsStyle: 'default', bsSize: 'small' },
+                    },
+                    bsStyle: 'default',
+                    bsSize: 'small' },
                   '-'
                 ),
                 _react2.default.createElement(
                   _reactBootstrap.Button,
-                  { onClick: function onClick() {
+                  {
+                    onClick: function onClick() {
                       return _this2.onIncrement(item._id);
-                    }, bsStyle: 'default', bsSize: 'small' },
+                    },
+                    bsStyle: 'default',
+                    bsSize: 'small' },
                   '+'
                 ),
                 _react2.default.createElement(
@@ -44017,9 +44023,12 @@ var Cart = function (_Component) {
                 ),
                 _react2.default.createElement(
                   _reactBootstrap.Button,
-                  { onClick: function onClick() {
+                  {
+                    onClick: function onClick() {
                       return _this2.onDelete(item._id);
-                    }, bsStyle: 'danger', bsSize: 'small' },
+                    },
+                    bsStyle: 'danger',
+                    bsSize: 'small' },
                   'DELETE'
                 )
               )

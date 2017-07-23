@@ -11,7 +11,13 @@ class BookItem extends Component {
     this.handleCart = this.handleCart.bind(this);
   }
   handleCart() {
-    const {dispatch, cart, _id, title, description, price} = this.props;
+    const {
+      dispatch,
+      cart,
+      _id,
+      title,
+      description,
+      price} = this.props;
     const book = [
       ...cart,
       {_id, title, description, price, quantity: 1}
