@@ -37794,14 +37794,14 @@ function cartReducers() {
       return _extends({}, state, {
         cart: action.payload,
         totalAmount: totals(action.payload).amount,
-        qty: totals(action.payload).qty
+        totalQty: totals(action.payload).qty
       });
       break;
     case "DELETE_CART_ITEM":
       return _extends({}, state, {
         cart: action.payload,
         totalAmount: totals(action.payload).amount,
-        qty: totals(action.payload).qty
+        totalQty: totals(action.payload).qty
       });
       break;
     case "UPDATE_CART":
@@ -37816,7 +37816,7 @@ function cartReducers() {
       return _extends({}, state, {
         cart: cartUpdate,
         totalAmount: totals(cartUpdate).amount,
-        qty: totals(cartUpdate).qty
+        totalQty: totals(cartUpdate).qty
       });
       break;
   };
@@ -48870,7 +48870,11 @@ var BookItem = function (_Component) {
               'usd. ',
               price
             ),
-            _react2.default.createElement(_reactBootstrap.Button, { onClick: this.handleCart, bsStyle: 'primary' })
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { onClick: this.handleCart, bsStyle: 'primary' },
+              'Buy now'
+            )
           )
         )
       );
@@ -48926,6 +48930,8 @@ var _react = __webpack_require__(1);
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRedux = __webpack_require__(183);
+
 var _Menu = __webpack_require__(544);
 
 var _Menu2 = _interopRequireDefault(_Menu);
@@ -48954,10 +48960,12 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'render',
     value: function render() {
+      var totalQty = this.props.totalQty;
+
       return _react2.default.createElement(
         'div',
         null,
-        _react2.default.createElement(_Menu2.default, null),
+        _react2.default.createElement(_Menu2.default, { cartItemNumber: totalQty }),
         this.props.children,
         _react2.default.createElement(_Footer2.default, null)
       );
@@ -48967,7 +48975,11 @@ var Main = function (_Component) {
   return Main;
 }(_react.Component);
 
-exports.default = Main;
+exports.default = (0, _reactRedux.connect)(function (state) {
+  return {
+    totalQty: state.cart.totalQty
+  };
+})(Main);
 
 /***/ }),
 /* 544 */
@@ -49008,6 +49020,13 @@ var Menu = function (_Component) {
   _createClass(Menu, [{
     key: 'render',
     value: function render() {
+      var cartItemNumber = this.props.cartItemNumber;
+
+      var displayCartItemNumber = cartItemNumber > 0 ? _react2.default.createElement(
+        _reactBootstrap.Badge,
+        { className: 'badge' },
+        cartItemNumber
+      ) : null;
       return _react2.default.createElement(
         _reactBootstrap.Navbar,
         { inverse: true, fixedTop: true },
@@ -49054,11 +49073,7 @@ var Menu = function (_Component) {
               _reactBootstrap.NavItem,
               { eventKey: 2, href: '/cart' },
               'Your Cart',
-              _react2.default.createElement(
-                _reactBootstrap.Badge,
-                { className: 'badge' },
-                '1'
-              )
+              displayCartItemNumber
             )
           )
         )

@@ -8,7 +8,7 @@ export function cartReducers(state = {cart:[]}, action) {
         ...state,
         cart: action.payload,
         totalAmount: totals(action.payload).amount,
-        qty: totals(action.payload).qty
+        totalQty: totals(action.payload).qty
       };
     break;
     case "DELETE_CART_ITEM":
@@ -16,7 +16,7 @@ export function cartReducers(state = {cart:[]}, action) {
         ...state,
         cart: action.payload,
         totalAmount: totals(action.payload).amount,
-        qty: totals(action.payload).qty
+        totalQty: totals(action.payload).qty
       };
     break;
     case "UPDATE_CART":
@@ -37,7 +37,7 @@ export function cartReducers(state = {cart:[]}, action) {
         ...state,
         cart: cartUpdate,
         totalAmount: totals(cartUpdate).amount,
-        qty: totals(cartUpdate).qty
+        totalQty: totals(cartUpdate).qty
       };
     break;
   };

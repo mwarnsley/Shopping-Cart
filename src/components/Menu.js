@@ -4,6 +4,9 @@ import {Nav, NavItem, Navbar, Badge} from 'react-bootstrap';
 
 class Menu extends Component {
   render() {
+    const {cartItemNumber} = this.props;
+    const displayCartItemNumber = cartItemNumber > 0 ?
+      (<Badge className="badge">{cartItemNumber}</Badge>) : null;
     return (
       <Navbar inverse fixedTop>
         <Navbar.Header>
@@ -21,7 +24,7 @@ class Menu extends Component {
             <NavItem eventKey={1} href="/admin">Admin</NavItem>
             <NavItem eventKey={2} href="/cart">
               Your Cart
-              <Badge className="badge">1</Badge>
+              {displayCartItemNumber}
             </NavItem>
           </Nav>
         </Navbar.Collapse>

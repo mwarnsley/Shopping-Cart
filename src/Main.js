@@ -1,13 +1,15 @@
 "use strict";
 import React, {Component} from 'react';
+import {connect} from 'react-redux'
 import Menu from './components/Menu';
 import Footer from './components/Footer';
 
 class Main extends Component {
   render() {
+    const {totalQty} = this.props;
     return (
       <div>
-        <Menu />
+        <Menu cartItemNumber={totalQty}/>
           {this.props.children}
         <Footer />
       </div>
@@ -15,4 +17,6 @@ class Main extends Component {
   }
 }
 
-export default Main;
+export default connect(state => ({
+  totalQty: state.cart.totalQty
+}))(Main);

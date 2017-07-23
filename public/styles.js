@@ -37,6 +37,7 @@ export default StyleSheet.create({
         "marginLeft": 0
     },
     "badge": {
-        "background": "#E4AA48"
+        "background": "#E4AA48",
+        "marginLeft": 5
     }
 });
