@@ -53,7 +53,6 @@ export function booksReducers(state = {
         ...currentBookToUpdate[indexToUpdate],
         title: action.payload.title
       };
-      console.log('What is it newBookToUpdate', newBookToUpdate);
       return {
         books: [
           ...currentBookToUpdate.slice(0, indexToUpdate),

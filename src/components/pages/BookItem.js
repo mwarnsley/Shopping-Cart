@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Row, Col, Well, Button} from 'react-bootstrap';
-import {addToCart} from '../../actions/cartActions';
+import {addToCart, updateCart} from '../../actions/cartActions';
 
 class BookItem extends Component {
   constructor() {
@@ -14,8 +14,22 @@ class BookItem extends Component {
     const {dispatch, cart, _id, title, description, price} = this.props;
     const book = [
       ...cart,
-      {_id, title, description, price}
+      {_id, title, description, price, quantity: 1}
     ];
+    // Check if the cart is empty
+    if (cart.length > 0) {
+      let _id = _id;
+      let cartIndex = cart.findIndex((item) => {
+        return item._id === _id;
+      });
+      // If cartIndex returns -1 there are no items with the same ID
+      if (cartIndex === -1) {
+        dispatch(addToCart(book));
+      } else {
+        dispatch(updateCart(_id, 1));
+      }
+      return;
+    }
     dispatch(addToCart(book));
   }
   render() {

@@ -32565,7 +32565,6 @@ function booksReducers() {
       var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
         title: action.payload.title
       });
-      console.log('What is it newBookToUpdate', newBookToUpdate);
       return {
         books: [].concat(_toConsumableArray(currentBookToUpdate.slice(0, indexToUpdate)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(indexToUpdate + 1)))
       };
@@ -32590,6 +32589,9 @@ Object.defineProperty(exports, "__esModule", {
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 exports.cartReducers = cartReducers;
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
 function cartReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : { cart: [] };
   var action = arguments[1];
@@ -32603,6 +32605,19 @@ function cartReducers() {
     case "DELETE_CART_ITEM":
       return _extends({}, state, {
         cart: action.payload
+      });
+      break;
+    case "UPDATE_CART":
+      var currentBookToUpdate = [].concat(_toConsumableArray(state.cart));
+      var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
+        return book._id === action._id;
+      });
+      var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
+        quantity: currentBookToUpdate[indexToUpdate].quantity + action.unit
+      });
+      var cartUpdate = [].concat(_toConsumableArray(currentBookToUpdate.slice(0, indexToUpdate)), [newBookToUpdate], _toConsumableArray(currentBookToUpdate.slice(indexToUpdate + 1)));
+      return _extends({}, state, {
+        cart: cartUpdate
       });
       break;
   };
@@ -32623,6 +32638,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.addToCart = addToCart;
 exports.deleteCartItem = deleteCartItem;
+exports.updateCart = updateCart;
 function addToCart(book) {
   return {
     type: "ADD_TO_CART",
@@ -32635,6 +32651,15 @@ function deleteCartItem(cart) {
   return {
     type: "DELETE_CART_ITEM",
     payload: cart
+  };
+}
+
+// Update the cart
+function updateCart(_id, unit) {
+  return {
+    type: "UPDATE_CART",
+    _id: _id,
+    unit: unit
   };
 }
 
@@ -43611,7 +43636,21 @@ var BookItem = function (_Component) {
           description = _props.description,
           price = _props.price;
 
-      var book = [].concat(_toConsumableArray(cart), [{ _id: _id, title: title, description: description, price: price }]);
+      var book = [].concat(_toConsumableArray(cart), [{ _id: _id, title: title, description: description, price: price, quantity: 1 }]);
+      // Check if the cart is empty
+      if (cart.length > 0) {
+        var _id2 = _id2;
+        var cartIndex = cart.findIndex(function (item) {
+          return item._id === _id2;
+        });
+        // If cartIndex returns -1 there are no items with the same ID
+        if (cartIndex === -1) {
+          dispatch((0, _cartActions.addToCart)(book));
+        } else {
+          dispatch((0, _cartActions.updateCart)(_id2, 1));
+        }
+        return;
+      }
       dispatch((0, _cartActions.addToCart)(book));
     }
   }, {
@@ -43859,6 +43898,8 @@ var Cart = function (_Component) {
     var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this));
 
     _this.onDelete = _this.onDelete.bind(_this);
+    _this.onIncrement = _this.onIncrement.bind(_this);
+    _this.onDecrement = _this.onDecrement.bind(_this);
     return _this;
   }
 
@@ -43868,11 +43909,29 @@ var Cart = function (_Component) {
       var _props = this.props,
           dispatch = _props.dispatch,
           cart = _props.cart;
+      // Filter the current state of the cart to remove the selected item
 
       var cartAfterDelete = cart.filter(function (item) {
         return item._id !== _id;
       });
       dispatch((0, _cartActions.deleteCartItem)(cartAfterDelete));
+    }
+  }, {
+    key: 'onIncrement',
+    value: function onIncrement(_id) {
+      var dispatch = this.props.dispatch;
+
+      dispatch((0, _cartActions.updateCart)(_id, 1));
+    }
+  }, {
+    key: 'onDecrement',
+    value: function onDecrement(_id, quantity) {
+      var dispatch = this.props.dispatch;
+      // Check if the quanity is greater than 1 so we don't go into negative numbers
+
+      if (quantity > 1) {
+        dispatch((0, _cartActions.updateCart)(_id, -1));
+      }
     }
   }, {
     key: 'renderEmpty',
@@ -43924,7 +43983,11 @@ var Cart = function (_Component) {
                 'h6',
                 null,
                 'qty. ',
-                _react2.default.createElement(_reactBootstrap.Label, { bsStyle: 'success' })
+                _react2.default.createElement(
+                  _reactBootstrap.Label,
+                  { bsStyle: 'success' },
+                  item.quantity
+                )
               )
             ),
             _react2.default.createElement(
@@ -43935,12 +43998,16 @@ var Cart = function (_Component) {
                 { style: { minWidth: '300px' } },
                 _react2.default.createElement(
                   _reactBootstrap.Button,
-                  { bsStyle: 'default', bsSize: 'small' },
+                  { onClick: function onClick() {
+                      return _this2.onDecrement(item._id, item.quantity);
+                    }, bsStyle: 'default', bsSize: 'small' },
                   '-'
                 ),
                 _react2.default.createElement(
                   _reactBootstrap.Button,
-                  { bsStyle: 'default', bsSize: 'small' },
+                  { onClick: function onClick() {
+                      return _this2.onIncrement(item._id);
+                    }, bsStyle: 'default', bsSize: 'small' },
                   '+'
                 ),
                 _react2.default.createElement(
