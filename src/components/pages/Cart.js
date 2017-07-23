@@ -1,6 +1,7 @@
 "use strict";
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
 import {deleteCartItem, updateCart} from '../../actions/cartActions';
 
@@ -135,7 +136,7 @@ Cart.propTypes = {
   /**
    * Function to dispatch actions from the store
    */
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
   /**
    * Array of items that are currently in the cart
    */
@@ -146,4 +147,7 @@ Cart.propTypes = {
   totalAmount: PropTypes.string,
 };
 
-export default Cart;
+export default connect(state => ({
+  cart: state.cart.cart,
+  totalAmount: state.cart.totalAmount
+}))(Cart);

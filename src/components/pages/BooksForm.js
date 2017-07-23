@@ -1,6 +1,7 @@
 "use strict";
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {connect} from 'react-redux';
 import {Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import {findDOMNode} from 'react-dom';
 import {postBooks, deleteBooks} from '../../actions/booksActions';
@@ -82,11 +83,13 @@ BooksForm.propTypes = {
   /**
    * Function to dispatch actions from the store
    */
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
   /**
    * Array of books coming from redux in the form of an array of objects
    */
   books: PropTypes.array,
 };
 
-export default BooksForm;
+export default connect(state => ({
+  books: state.books.books
+}))(BooksForm);

@@ -36,11 +36,11 @@ class BooksList extends Component {
     return (
       <Grid>
         <Row>
-          <Cart totalAmount={totalAmount} dispatch={dispatch} cart={cart}/>
+          <Cart />
         </Row>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>
-            <BooksForm books={books} dispatch={dispatch}/>
+            <BooksForm />
           </Col>
           {booksList}
         </Row>
@@ -49,11 +49,11 @@ class BooksList extends Component {
   }
 }
 
-BooksForm.propTypes = {
+BooksList.propTypes = {
   /**
    * Function to dispatch actions from the store
    */
-  dispatch: PropTypes.func.isRequired,
+  dispatch: PropTypes.func,
   /**
    * Array of books coming from redux in the form of an array of objects
    */
@@ -68,12 +68,8 @@ BooksForm.propTypes = {
   totalAmount: PropTypes.string,
 };
 
-function mapStateToProps(state) {
-  return {
-    books: state.books.books,
-    cart: state.cart.cart,
-    totalAmount: state.cart.totalAmount
-  };
-}
-
-export default connect(mapStateToProps)(BooksList);
+export default connect(state => ({
+  books: state.books.books,
+  cart: state.cart.cart,
+  totalAmount: state.cart.totalAmount
+}))(BooksList);
