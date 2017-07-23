@@ -1,16 +1,32 @@
 "use strict";
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
+import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
 import {deleteCartItem, updateCart} from '../../actions/cartActions';
 
 class Cart extends Component {
   constructor() {
     super();
 
+    this.state = {
+      showModal: false
+    };
+
     this.onDelete = this.onDelete.bind(this);
     this.onIncrement = this.onIncrement.bind(this);
     this.onDecrement = this.onDecrement.bind(this);
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
+  }
+  open() {
+    this.setState({
+      showModal: true,
+    });
+  }
+  close() {
+    this.setState({
+      showModal: false,
+    });
   }
   onDelete(_id) {
     const {dispatch, cart} = this.props;
@@ -79,6 +95,28 @@ class Cart extends Component {
     return (
       <Panel header="Cart" bsStyle="primary">
         {cartItemList}
+        <Row>
+          <Col xs={12}>
+            <Button onClick={this.open} bsStyle="success" bsSize="small">
+              PROCEED TO CHECKOUT
+            </Button>
+          </Col>
+        </Row>
+        <Modal show={this.state.showModal} onHide={this.close}>
+          <Modal.Header closeButton>
+            <Modal.Title>Thank you!</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <h6>Your order has been saved</h6>
+            <p>You will receive an email confirmation</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Col xs={6}>
+              <h6>total $:</h6>
+            </Col>
+            <Button onClick={this.close}>Close</Button>
+          </Modal.Footer>
+        </Modal>
       </Panel>
     );
   }

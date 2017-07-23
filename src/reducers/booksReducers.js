@@ -1,7 +1,7 @@
 "use strict";
 
-// Creating the Books reducer
-export function booksReducers(state = {
+// Setting variable for the initial books state
+const booksState = {
   books:
   [
     {
@@ -17,7 +17,10 @@ export function booksReducers(state = {
       price: 29.99
     }
   ]
-}, action) {
+};
+
+// Creating the Books reducer
+export function booksReducers(state = booksState, action) {
 
   switch (action.type) {
     case "GET_BOOKS":

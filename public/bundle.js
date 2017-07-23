@@ -32507,7 +32507,7 @@ exports.default = (0, _redux.combineReducers)({
 "use strict";
 
 
-// Creating the Books reducer
+// Setting variable for the initial books state
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -32519,20 +32519,23 @@ exports.booksReducers = booksReducers;
 
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
+var booksState = {
+  books: [{
+    _id: 1,
+    title: 'Book1',
+    description: 'Book1 Description',
+    price: 19.99
+  }, {
+    _id: 2,
+    title: 'Book2',
+    description: 'Book2 Description',
+    price: 29.99
+  }]
+};
+
+// Creating the Books reducer
 function booksReducers() {
-  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    books: [{
-      _id: 1,
-      title: 'Book1',
-      description: 'Book1 Description',
-      price: 19.99
-    }, {
-      _id: 2,
-      title: 'Book2',
-      description: 'Book2 Description',
-      price: 29.99
-    }]
-  };
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : booksState;
   var action = arguments[1];
 
 
@@ -43897,13 +43900,33 @@ var Cart = function (_Component) {
 
     var _this = _possibleConstructorReturn(this, (Cart.__proto__ || Object.getPrototypeOf(Cart)).call(this));
 
+    _this.state = {
+      showModal: false
+    };
+
     _this.onDelete = _this.onDelete.bind(_this);
     _this.onIncrement = _this.onIncrement.bind(_this);
     _this.onDecrement = _this.onDecrement.bind(_this);
+    _this.close = _this.close.bind(_this);
+    _this.open = _this.open.bind(_this);
     return _this;
   }
 
   _createClass(Cart, [{
+    key: 'open',
+    value: function open() {
+      this.setState({
+        showModal: true
+      });
+    }
+  }, {
+    key: 'close',
+    value: function close() {
+      this.setState({
+        showModal: false
+      });
+    }
+  }, {
     key: 'onDelete',
     value: function onDelete(_id) {
       var _props = this.props,
@@ -44039,7 +44062,65 @@ var Cart = function (_Component) {
       return _react2.default.createElement(
         _reactBootstrap.Panel,
         { header: 'Cart', bsStyle: 'primary' },
-        cartItemList
+        cartItemList,
+        _react2.default.createElement(
+          _reactBootstrap.Row,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.Col,
+            { xs: 12 },
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { onClick: this.open, bsStyle: 'success', bsSize: 'small' },
+              'PROCEED TO CHECKOUT'
+            )
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Modal,
+          { show: this.state.showModal, onHide: this.close },
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Header,
+            { closeButton: true },
+            _react2.default.createElement(
+              _reactBootstrap.Modal.Title,
+              null,
+              'Thank you!'
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Body,
+            null,
+            _react2.default.createElement(
+              'h6',
+              null,
+              'Your order has been saved'
+            ),
+            _react2.default.createElement(
+              'p',
+              null,
+              'You will receive an email confirmation'
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Modal.Footer,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { xs: 6 },
+              _react2.default.createElement(
+                'h6',
+                null,
+                'total $:'
+              )
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Button,
+              { onClick: this.close },
+              'Close'
+            )
+          )
+        )
       );
     }
   }, {
