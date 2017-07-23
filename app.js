@@ -22,6 +22,29 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+// APIs
+var mongoose = require('mongoose');
+// Connect mongoose to the mongodb database
+mongoose.connect('mongodb://localhost:27018/bookshop');
+
+var Books = require('./models/books.js');
+
+//-->> POST BOOKS <<--
+app.post('/books', (req, res) => {
+  var book = req.body;
+
+  // Mongoose create will save one or more documents to the database
+  Books.create(book, (err, books) => {
+    if (err) {
+      throw err;
+    }
+    res.json(books);
+  });
+});
+
+// END APIs
+
+
 app.get('*', (req, res) => {
   res.sendFile(path.resolve(__dirname, 'public', 'index.html'));
 });
