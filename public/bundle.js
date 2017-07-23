@@ -32705,7 +32705,7 @@ var BooksList = function (_Component) {
           _react2.default.createElement(
             _reactBootstrap.Col,
             { xs: 12, sm: 6 },
-            _react2.default.createElement(_BooksForm2.default, null)
+            _react2.default.createElement(_BooksForm2.default, { dispatch: dispatch })
           ),
           booksList
         )
@@ -43606,6 +43606,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = __webpack_require__(172);
 
+var _reactDom = __webpack_require__(20);
+
+var _booksActions = __webpack_require__(171);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -43620,12 +43624,29 @@ var BooksForm = function (_Component) {
   function BooksForm() {
     _classCallCheck(this, BooksForm);
 
-    return _possibleConstructorReturn(this, (BooksForm.__proto__ || Object.getPrototypeOf(BooksForm)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (BooksForm.__proto__ || Object.getPrototypeOf(BooksForm)).call(this));
+
+    _this.handleSubmit = _this.handleSubmit.bind(_this);
+    return _this;
   }
 
   _createClass(BooksForm, [{
+    key: 'handleSubmit',
+    value: function handleSubmit() {
+      var dispatch = this.props.dispatch;
+
+      var book = [{
+        title: (0, _reactDom.findDOMNode)(this.refs.title).value,
+        description: (0, _reactDom.findDOMNode)(this.refs.description).value,
+        price: (0, _reactDom.findDOMNode)(this.refs.price).value
+      }];
+      dispatch((0, _booksActions.postBooks)(book));
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var dispatch = this.props.dispatch;
+
       return _react2.default.createElement(
         _reactBootstrap.Well,
         null,
@@ -43673,7 +43694,7 @@ var BooksForm = function (_Component) {
           ),
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'primary' },
+            { onClick: this.handleSubmit, bsStyle: 'primary' },
             'Save'
           )
         )

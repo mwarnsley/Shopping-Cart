@@ -1,9 +1,28 @@
 "use strict";
 import React, {Component} from 'react';
 import {Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
+import {findDOMNode} from 'react-dom';
+import {postBooks} from '../../actions/booksActions';
 
 class BooksForm extends Component {
+  constructor() {
+    super();
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit() {
+    const {dispatch} = this.props;
+    const book = [
+      {
+        title: findDOMNode(this.refs.title).value,
+        description: findDOMNode(this.refs.description).value,
+        price: findDOMNode(this.refs.price).value
+      }
+    ];
+    dispatch(postBooks(book));
+  }
   render() {
+    const {dispatch} = this.props;
     return(
       <Well>
         <Panel>
@@ -28,7 +47,7 @@ class BooksForm extends Component {
               placeholder="Enter Price"
               ref="price" />
           </FormGroup>
-          <Button bsStyle="primary">Save</Button>
+          <Button onClick={this.handleSubmit} bsStyle="primary">Save</Button>
         </Panel>
       </Well>
     );

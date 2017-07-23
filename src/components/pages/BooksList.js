@@ -29,7 +29,7 @@ class BooksList extends Component {
       <Grid>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>
-            <BooksForm/>
+            <BooksForm dispatch={dispatch}/>
           </Col>
           {booksList}
         </Row>
