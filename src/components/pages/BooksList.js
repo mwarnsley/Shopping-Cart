@@ -32,7 +32,7 @@ class BooksList extends Component {
     return (
       <Grid>
         <Row>
-          <Cart />
+          <Cart dispatch={dispatch} cart={cart}/>
         </Row>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>

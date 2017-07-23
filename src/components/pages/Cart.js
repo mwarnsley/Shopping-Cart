@@ -1,9 +1,22 @@
 "use strict";
 import React, {Component} from 'react';
-import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
+import {deleteCartItem} from '../../actions/cartActions';
 
 class Cart extends Component {
+  constructor() {
+    super();
+
+    this.onDelete = this.onDelete.bind(this);
+  }
+  onDelete(_id) {
+    const {dispatch, cart} = this.props;
+    const cartAfterDelete = cart.filter((item) => {
+      return item._id !== _id;
+    });
+    dispatch(deleteCartItem(cartAfterDelete));
+  }
   renderEmpty() {
     return (<div/>);
   }
@@ -27,7 +40,7 @@ class Cart extends Component {
                 <Button bsStyle="default" bsSize="small">-</Button>
                 <Button bsStyle="default" bsSize="small">+</Button>
                 <span>     </span>
-                <Button bsStyle="danger" bsSize="small">DELETE</Button>
+                <Button onClick={() => this.onDelete(item._id)} bsStyle="danger" bsSize="small">DELETE</Button>
               </ButtonGroup>
             </Col>
           </Row>
@@ -50,10 +63,15 @@ class Cart extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    cart: state.cart.cart
-  };
-}
+Cart.propTypes = {
+  /**
+   * Function to dispatch actions from the store
+   */
+  dispatch: PropTypes.func.isRequired,
+  /**
+   * Array of items that are currently in the cart
+   */
+  cart: PropTypes.array,
+};
 
-export default connect(mapStateToProps)(Cart);
+export default Cart;
