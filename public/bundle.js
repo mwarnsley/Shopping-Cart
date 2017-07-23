@@ -32553,7 +32553,7 @@ function booksReducers() {
     case "DELETE_BOOK":
       var currentBookToDelete = [].concat(_toConsumableArray(state.books));
       var indexToDelete = currentBookToDelete.findIndex(function (book) {
-        return book._id === action.payload._id;
+        return book._id == action.payload;
       });
       return {
         books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)))
@@ -32792,7 +32792,7 @@ var BooksList = function (_Component) {
           _react2.default.createElement(
             _reactBootstrap.Col,
             { xs: 12, sm: 6 },
-            _react2.default.createElement(_BooksForm2.default, { dispatch: dispatch })
+            _react2.default.createElement(_BooksForm2.default, { books: books, dispatch: dispatch })
           ),
           booksList
         )
@@ -43805,6 +43805,7 @@ var BooksForm = function (_Component) {
     var _this = _possibleConstructorReturn(this, (BooksForm.__proto__ || Object.getPrototypeOf(BooksForm)).call(this));
 
     _this.handleSubmit = _this.handleSubmit.bind(_this);
+    _this.onDelete = _this.onDelete.bind(_this);
     return _this;
   }
 
@@ -43821,10 +43822,27 @@ var BooksForm = function (_Component) {
       dispatch((0, _booksActions.postBooks)(book));
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'onDelete',
+    value: function onDelete() {
       var dispatch = this.props.dispatch;
 
+      var bookId = (0, _reactDom.findDOMNode)(this.refs.delete).value;
+      dispatch((0, _booksActions.deleteBooks)(bookId));
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props,
+          dispatch = _props.dispatch,
+          books = _props.books;
+
+      var booksList = books.map(function (book) {
+        return _react2.default.createElement(
+          'option',
+          { key: book._id },
+          book._id
+        );
+      });
       return _react2.default.createElement(
         _reactBootstrap.Well,
         null,
@@ -43873,7 +43891,35 @@ var BooksForm = function (_Component) {
           _react2.default.createElement(
             _reactBootstrap.Button,
             { onClick: this.handleSubmit, bsStyle: 'primary' },
-            'Save'
+            'Save Book'
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Panel,
+          { style: { marginTop: '25px' } },
+          _react2.default.createElement(
+            _reactBootstrap.FormGroup,
+            { controlId: 'formControlsSelect' },
+            _react2.default.createElement(
+              _reactBootstrap.ControlLabel,
+              null,
+              'Select a book id to delete'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.FormControl,
+              { ref: 'delete', componentClass: 'select', placeholder: 'select' },
+              _react2.default.createElement(
+                'option',
+                { value: 'select' },
+                'Select'
+              ),
+              booksList
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { onClick: this.onDelete, bsStyle: 'danger' },
+            'Delete Book'
           )
         )
       );
@@ -43887,7 +43933,11 @@ BooksForm.propTypes = {
   /**
    * Function to dispatch actions from the store
    */
-  dispatch: _propTypes2.default.func.isRequired
+  dispatch: _propTypes2.default.func.isRequired,
+  /**
+   * Array of books coming from redux in the form of an array of objects
+   */
+  books: _propTypes2.default.array
 };
 
 exports.default = BooksForm;

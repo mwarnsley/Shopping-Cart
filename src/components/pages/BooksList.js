@@ -40,7 +40,7 @@ class BooksList extends Component {
         </Row>
         <Row style={{marginTop: '15px'}}>
           <Col xs={12} sm={6}>
-            <BooksForm dispatch={dispatch}/>
+            <BooksForm books={books} dispatch={dispatch}/>
           </Col>
           {booksList}
         </Row>

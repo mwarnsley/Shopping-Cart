@@ -3,13 +3,14 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Well, Panel, FormControl, FormGroup, ControlLabel, Button} from 'react-bootstrap';
 import {findDOMNode} from 'react-dom';
-import {postBooks} from '../../actions/booksActions';
+import {postBooks, deleteBooks} from '../../actions/booksActions';
 
 class BooksForm extends Component {
   constructor() {
     super();
 
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
   handleSubmit() {
     const {dispatch} = this.props;
@@ -22,8 +23,20 @@ class BooksForm extends Component {
     ];
     dispatch(postBooks(book));
   }
-  render() {
+  onDelete() {
     const {dispatch} = this.props;
+    let bookId = findDOMNode(this.refs.delete).value;
+    dispatch(deleteBooks(bookId));
+  }
+  render() {
+    const {dispatch, books} = this.props;
+    const booksList = books.map((book) => {
+      return (
+        <option key={book._id}>
+          {book._id}
+        </option>
+      );
+    });
     return(
       <Well>
         <Panel>
@@ -48,7 +61,17 @@ class BooksForm extends Component {
               placeholder="Enter Price"
               ref="price" />
           </FormGroup>
-          <Button onClick={this.handleSubmit} bsStyle="primary">Save</Button>
+          <Button onClick={this.handleSubmit} bsStyle="primary">Save Book</Button>
+        </Panel>
+        <Panel style={{marginTop: '25px'}}>
+          <FormGroup controlId="formControlsSelect">
+            <ControlLabel>Select a book id to delete</ControlLabel>
+            <FormControl ref="delete" componentClass="select" placeholder="select">
+              <option value="select">Select</option>
+              {booksList}
+            </FormControl>
+          </FormGroup>
+          <Button onClick={this.onDelete} bsStyle="danger">Delete Book</Button>
         </Panel>
       </Well>
     );
@@ -60,6 +83,10 @@ BooksForm.propTypes = {
    * Function to dispatch actions from the store
    */
   dispatch: PropTypes.func.isRequired,
+  /**
+   * Array of books coming from redux in the form of an array of objects
+   */
+  books: PropTypes.array,
 };
 
 export default BooksForm;
