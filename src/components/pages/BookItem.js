@@ -11,10 +11,10 @@ class BookItem extends Component {
     this.handleCart = this.handleCart.bind(this);
   }
   handleCart() {
-    const {dispatch, cart, id, title, description, price} = this.props;
+    const {dispatch, cart, _id, title, description, price} = this.props;
     const book = [
       ...cart,
-      {id, title, description, price}
+      {_id, title, description, price}
     ];
     dispatch(addToCart(book));
   }
@@ -43,7 +43,7 @@ BookItem.propTypes = {
   /**
    * ID number for the item
    */
-  id: PropTypes.number.isRequired,
+  _id: PropTypes.number.isRequired,
   /**
    * Title of the book in string format
    */

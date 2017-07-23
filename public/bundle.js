@@ -32522,12 +32522,12 @@ function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 function booksReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
     books: [{
-      id: 1,
+      _id: 1,
       title: 'Book1',
       description: 'Book1 Description',
       price: 19.99
     }, {
-      id: 2,
+      _id: 2,
       title: 'Book2',
       description: 'Book2 Description',
       price: 29.99
@@ -32550,7 +32550,7 @@ function booksReducers() {
     case "DELETE_BOOK":
       var currentBookToDelete = [].concat(_toConsumableArray(state.books));
       var indexToDelete = currentBookToDelete.findIndex(function (book) {
-        return book.id === action.payload.id;
+        return book._id === action.payload._id;
       });
       return {
         books: [].concat(_toConsumableArray(currentBookToDelete.slice(0, indexToDelete)), _toConsumableArray(currentBookToDelete.slice(indexToDelete + 1)))
@@ -32560,7 +32560,7 @@ function booksReducers() {
     case "UPDATE_BOOK":
       var currentBookToUpdate = [].concat(_toConsumableArray(state.books));
       var indexToUpdate = currentBookToUpdate.findIndex(function (book) {
-        return book.id === action.payload.id;
+        return book._id === action.payload._id;
       });
       var newBookToUpdate = _extends({}, currentBookToUpdate[indexToUpdate], {
         title: action.payload.title
@@ -32697,9 +32697,9 @@ var BooksList = function (_Component) {
       var booksList = books.map(function (book) {
         return _react2.default.createElement(
           _reactBootstrap.Col,
-          { xs: 12, sm: 6, md: 4, key: book.id },
+          { xs: 12, sm: 6, md: 4, key: book._id },
           _react2.default.createElement(_BookItem2.default, {
-            id: book.id,
+            _id: book._id,
             title: book.title,
             description: book.description,
             price: book.price,
@@ -43591,12 +43591,12 @@ var BookItem = function (_Component) {
       var _props = this.props,
           dispatch = _props.dispatch,
           cart = _props.cart,
-          id = _props.id,
+          _id = _props._id,
           title = _props.title,
           description = _props.description,
           price = _props.price;
 
-      var book = [].concat(_toConsumableArray(cart), [{ id: id, title: title, description: description, price: price }]);
+      var book = [].concat(_toConsumableArray(cart), [{ _id: _id, title: title, description: description, price: price }]);
       dispatch((0, _cartActions.addToCart)(book));
     }
   }, {
@@ -43650,7 +43650,7 @@ BookItem.propTypes = {
   /**
    * ID number for the item
    */
-  id: _propTypes2.default.number.isRequired,
+  _id: _propTypes2.default.number.isRequired,
   /**
    * Title of the book in string format
    */
@@ -43853,7 +43853,7 @@ var Cart = function (_Component) {
       var cartItemList = cart.map(function (item) {
         return _react2.default.createElement(
           _reactBootstrap.Panel,
-          { key: item.id },
+          { key: item._id },
           _react2.default.createElement(
             _reactBootstrap.Row,
             null,
@@ -43864,6 +43864,59 @@ var Cart = function (_Component) {
                 'h6',
                 null,
                 item.title
+              ),
+              _react2.default.createElement(
+                'span',
+                null,
+                '    '
+              )
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { xs: 12, sm: 2 },
+              _react2.default.createElement(
+                'h6',
+                null,
+                'usd. ',
+                item.price
+              )
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { xs: 12, sm: 2 },
+              _react2.default.createElement(
+                'h6',
+                null,
+                'qty. ',
+                _react2.default.createElement(_reactBootstrap.Label, { bsStyle: 'success' })
+              )
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { xs: 6, sm: 4 },
+              _react2.default.createElement(
+                _reactBootstrap.ButtonGroup,
+                { style: { minWidth: '300px' } },
+                _react2.default.createElement(
+                  _reactBootstrap.Button,
+                  { bsStyle: 'default', bsSize: 'small' },
+                  '-'
+                ),
+                _react2.default.createElement(
+                  _reactBootstrap.Button,
+                  { bsStyle: 'default', bsSize: 'small' },
+                  '+'
+                ),
+                _react2.default.createElement(
+                  'span',
+                  null,
+                  '     '
+                ),
+                _react2.default.createElement(
+                  _reactBootstrap.Button,
+                  { bsStyle: 'danger', bsSize: 'small' },
+                  'DELETE'
+                )
               )
             )
           )
