@@ -39,7 +39,10 @@ class BookItem extends Component {
     dispatch(addToCart(book));
   }
   render() {
-    const {title, description, price} = this.props;
+    const {
+      title,
+      description,
+      price} = this.props;
     return(
       <Well>
         <Row>
