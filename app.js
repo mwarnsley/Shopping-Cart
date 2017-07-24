@@ -44,11 +44,25 @@ app.post('/books', (req, res) => {
 
 //-->> GET BOOKS <<--
 app.get('/books', (req, res) => {
+  // Mongoose find will find all of the books in the database
   Books.find((err, books) => {
     if (err) {
       throw err;
     }
-    res.json(books);  
+    res.json(books);
+  });
+});
+
+//-->> DELETE BOOKS <<--
+app.delete('/books/:_id', (req, res) => {
+  var query = {_id: req.params._id};
+
+  // Mongoose remove will remove the book that was selected
+  Books.remove(query, (err, books) => {
+    if (err) {
+      throw err;
+    }
+    res.json(books);
   });
 });
 
