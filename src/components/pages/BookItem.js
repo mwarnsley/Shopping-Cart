@@ -32,7 +32,7 @@ class BookItem extends Component {
       if (cartIndex === -1) {
         dispatch(addToCart(book));
       } else {
-        dispatch(updateCart(_id, 1));
+        dispatch(updateCart(_id, 1, cart));
       }
       return;
     }

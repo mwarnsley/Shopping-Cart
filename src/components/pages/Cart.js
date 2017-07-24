@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Modal, Panel, Col, Row, Well, Button, ButtonGroup, Label} from 'react-bootstrap';
-import {deleteCartItem, updateCart} from '../../actions/cartActions';
+import {deleteCartItem, updateCart, getCart} from '../../actions/cartActions';
 
 class Cart extends Component {
   constructor() {
@@ -18,6 +18,10 @@ class Cart extends Component {
     this.onDecrement = this.onDecrement.bind(this);
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
+  }
+  componentDidMount() {
+    const {dispatch} = this.props;
+    dispatch(getCart());
   }
   open() {
     this.setState({
@@ -38,14 +42,14 @@ class Cart extends Component {
     dispatch(deleteCartItem(cartAfterDelete));
   }
   onIncrement(_id) {
-    const {dispatch} = this.props;
-    dispatch(updateCart(_id, 1));
+    const {dispatch, cart} = this.props;
+    dispatch(updateCart(_id, 1, cart));
   }
   onDecrement(_id, quantity) {
-    const {dispatch} = this.props;
+    const {dispatch, cart} = this.props;
     // Check if the quanity is greater than 1 so we don't go into negative numbers
     if (quantity > 1) {
-      dispatch(updateCart(_id, -1));
+      dispatch(updateCart(_id, -1, cart));
     }
   }
   renderEmpty() {
