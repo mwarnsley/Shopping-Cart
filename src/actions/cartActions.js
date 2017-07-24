@@ -39,10 +39,20 @@ export function addToCart(cart) {
 
 // Action to delete an item from the cart
 export function deleteCartItem(cart) {
-  return {
-    type: "DELETE_CART_ITEM",
-    payload: cart
-  }
+  return (dispatch) => {
+    axios.post('/api/cart', cart)
+      .then((res) => {
+        dispatch({
+          type: "DELETE_CART_ITEM",
+          payload: res.data
+        });
+      }).catch((err) => {
+        dispatch({
+          type: "DELETE_CART_ITEM_REJECTED",
+          msg: "error when deleting from cart"
+        });
+      });
+  };
 }
 
 // Action to update an item in the cart

@@ -11110,9 +11110,18 @@ function addToCart(cart) {
 
 // Action to delete an item from the cart
 function deleteCartItem(cart) {
-  return {
-    type: "DELETE_CART_ITEM",
-    payload: cart
+  return function (dispatch) {
+    _axios2.default.post('/api/cart', cart).then(function (res) {
+      dispatch({
+        type: "DELETE_CART_ITEM",
+        payload: res.data
+      });
+    }).catch(function (err) {
+      dispatch({
+        type: "DELETE_CART_ITEM_REJECTED",
+        msg: "error when deleting from cart"
+      });
+    });
   };
 }
 
