@@ -1,4 +1,5 @@
 "use strict";
+import axios from 'axios';
 
 // Action to get books on component mounting
 export function getBooks() {
@@ -9,9 +10,19 @@ export function getBooks() {
 
 // Action to post a new book
 export function postBooks(book) {
-  return {
-    type: "POST_BOOK",
-    payload: book
+  return (dispatch) => {
+    axios.post("/books", book)
+      .then((res) => {
+        dispatch({
+          type: "POST_BOOK",
+          payload: res.data
+        });
+      }).catch((err) => {
+        dispatch({
+          type: "POST_BOOK_REJECTED",
+          payload: "There was an error while trying to post this book"
+        });
+      });
   };
 }
 

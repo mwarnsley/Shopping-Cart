@@ -66,7 +66,7 @@ BookItem.propTypes = {
   /**
    * ID number for the item
    */
-  _id: PropTypes.number.isRequired,
+  _id: PropTypes.string.isRequired,
   /**
    * Title of the book in string format
    */
