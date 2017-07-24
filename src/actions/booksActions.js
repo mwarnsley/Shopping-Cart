@@ -3,9 +3,20 @@ import axios from 'axios';
 
 // Action to get books on component mounting
 export function getBooks() {
-  return {
-    type: "GET_BOOKS"
-  }
+  return (dispatch) => {
+    axios.get('/books')
+      .then((res) => {
+        dispatch({
+          type: "GET_BOOKS",
+          payload: res.data
+        });
+      }).catch((err) => {
+        dispatch({
+          type: "GET_BOOKS_REJECTED",
+          payload: err
+        });
+      });
+  };
 }
 
 // Action to post a new book
@@ -28,9 +39,19 @@ export function postBooks(book) {
 
 // Action to delete a book
 export function deleteBooks(id) {
-  return {
-    type: "DELETE_BOOK",
-    payload: id
+  return (dispatch) => {
+    axios.delete(`/books/${id}`)
+      .then((res) => {
+        dispatch({
+          type: "DELETE_BOOK",
+          payload: id
+        });
+      }).catch((err) => {
+        dispatch({
+          type: "DELETE_BOOK_REJECTED",
+          payload: err
+        });
+      });
   };
 }
 

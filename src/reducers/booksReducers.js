@@ -2,31 +2,16 @@
 
 // Setting variable for the initial books state
 const booksState = {
-  books:
-  [
-    {
-      _id: 1,
-      title: 'Book1',
-      description: 'Book1 Description',
-      price: 19.99
-    },
-    {
-      _id: 2,
-      title: 'Book2',
-      description: 'Book2 Description',
-      price: 29.99
-    }
-  ]
+  books: []
 };
 
 // Creating the Books reducer
 export function booksReducers(state = booksState, action) {
-
   switch (action.type) {
     case "GET_BOOKS":
       return {
         ...state,
-        books: [...state.books]
+        books: [...action.payload]
       }
     case "POST_BOOK":
       return {

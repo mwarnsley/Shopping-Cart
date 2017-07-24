@@ -10800,8 +10800,18 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 // Action to get books on component mounting
 function getBooks() {
-  return {
-    type: "GET_BOOKS"
+  return function (dispatch) {
+    _axios2.default.get('/books').then(function (res) {
+      dispatch({
+        type: "GET_BOOKS",
+        payload: res.data
+      });
+    }).catch(function (err) {
+      dispatch({
+        type: "GET_BOOKS_REJECTED",
+        payload: err
+      });
+    });
   };
 }
 
@@ -10824,9 +10834,18 @@ function postBooks(book) {
 
 // Action to delete a book
 function deleteBooks(id) {
-  return {
-    type: "DELETE_BOOK",
-    payload: id
+  return function (dispatch) {
+    _axios2.default.delete('/books/' + id).then(function (res) {
+      dispatch({
+        type: "DELETE_BOOK",
+        payload: id
+      });
+    }).catch(function (err) {
+      dispatch({
+        type: "DELETE_BOOK_REJECTED",
+        payload: err
+      });
+    });
   };
 }
 
@@ -37737,17 +37756,7 @@ exports.booksReducers = booksReducers;
 function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 var booksState = {
-  books: [{
-    _id: 1,
-    title: 'Book1',
-    description: 'Book1 Description',
-    price: 19.99
-  }, {
-    _id: 2,
-    title: 'Book2',
-    description: 'Book2 Description',
-    price: 29.99
-  }]
+  books: []
 };
 
 // Creating the Books reducer
@@ -37755,11 +37764,10 @@ function booksReducers() {
   var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : booksState;
   var action = arguments[1];
 
-
   switch (action.type) {
     case "GET_BOOKS":
       return _extends({}, state, {
-        books: [].concat(_toConsumableArray(state.books))
+        books: [].concat(_toConsumableArray(action.payload))
       });
     case "POST_BOOK":
       return {
