@@ -66,6 +66,32 @@ app.delete('/books/:_id', (req, res) => {
   });
 });
 
+//-->> UPDATE BOOKS <<-- (NOT USED IN SHOPPING CART BUT SETUP IF NEEDED)
+app.put('./books/:_id', (req, res) => {
+  var book = req.body;
+  var query = req.params._id;
+
+  // If field doesn't exist we will set a new field
+  var update = {
+    '$set': {
+      title: book.title,
+      description: book.description,
+      image: book.image,
+      price: book.price
+    }
+  };
+
+  // When true returs the updated document
+  var options = {new: true};
+
+  Books.findOneAndUpdate(query, update, options, (err, books) => {
+    if (err) {
+      throw err;
+    }
+    res.json(books);
+  });
+});
+
 // END APIs
 
 
